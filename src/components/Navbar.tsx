@@ -1,11 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
-import CloseButton from 'react-bootstrap/CloseButton';
 
-export default function Navbar() {
+interface NavType {
+  closeMenu: () => void;
+}
+
+export default function Navbar({ closeMenu }: NavType) {
   return (
     <NavbarWrapper>
-      <CloseButton />
+      <button onClick={closeMenu}>x</button>
       <NavTitle />
       <AddButton>+</AddButton>
     </NavbarWrapper>

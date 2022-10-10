@@ -1,42 +1,135 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import CloseButton from 'react-bootstrap/CloseButton';
-// import Button from './components/Button';
 import NextButton from './components/NextButton';
+import MenuModal from '../Cart/components/MenuModal/MenuModal';
+import DiscountModal from './components/DiscountModal/DiscountModal';
+import SelectQuantity from './components/SelectQuantity/SelectQuantity';
+
+const DISCOUNT_DATA = [
+  {
+    name: '신규 할인',
+    discountRate: 5000,
+  },
+  {
+    name: '여름프로모션',
+    discountRate: 0.3,
+  },
+  {
+    name: '현금 할인',
+    discountRate: 0.05,
+  },
+  {
+    name: '회원 할인',
+    discountRate: 0.05,
+  },
+];
 
 export default function Cart() {
-  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState('');
+  const [checkedServices, setCheckedServices] = useState({});
+  const [checkedDiscounts, setCheckedDiscounts] = useState({});
 
-  const showMenu = () => {
-    navigate('/menu');
-    console.log('hi');
+  const handleChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, checked } = e.target;
+    if (checked) {
+      setCheckedServices({
+        ...checkedServices,
+        [name]: value,
+      });
+    } else {
+      setCheckedServices({
+        ...checkedServices,
+        [name]: '',
+      });
+    }
   };
+
+  const handleDiscountChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, checked } = e.target;
+    if (checked) {
+      setCheckedDiscounts({
+        ...checkedDiscounts,
+        [name]: value,
+      });
+    } else {
+      setCheckedDiscounts({
+        ...checkedDiscounts,
+        [name]: '',
+      });
+    }
+  };
+
+  const handleMenu = () => {
+    setIsModalOpen('menu');
+  };
+  const closeMenu = () => {
+    setIsModalOpen('');
+  };
+
+  const handleDiscount = () => {
+    setIsModalOpen('discount');
+  };
+
   return (
     <CartBox>
-      <Header>
-        <HeaderWrapper>
-          <CloseButton />
-          <CustomerWrapper>
-            <CustomerName>이가을</CustomerName>
-            <Date></Date>
-          </CustomerWrapper>
-        </HeaderWrapper>
-        <ButtonWrapper>
-          <ServiceButton onClick={showMenu}>시술</ServiceButton>
-          <DiscountButton>할인</DiscountButton>
-        </ButtonWrapper>
-        <Line />
-      </Header>
+      {isModalOpen === 'menu' && (
+        <MenuModal
+          handleMenu={handleMenu}
+          handleChecked={handleChecked}
+          closeMenu={closeMenu}
+        />
+      )}
 
-      <Footer>
-        <Line />
-        <TotalAmount>
-          <span>합계</span>
-          <span>원</span>
-        </TotalAmount>
-        <NextButton></NextButton>
-      </Footer>
+      {isModalOpen === 'discount' && (
+        <DiscountModal
+          closeMenu={closeMenu}
+          discountData={DISCOUNT_DATA}
+          handleDiscountChecked={handleDiscountChecked}
+        />
+      )}
+      <CartWrap>
+        <Header>
+          <HeaderWrapper>
+            <CloseButton />
+            <CustomerWrapper>
+              <CustomerName>이가을</CustomerName>
+              <Date></Date>
+            </CustomerWrapper>
+          </HeaderWrapper>
+          <ButtonWrapper>
+            <ServiceButton onClick={handleMenu}>시술</ServiceButton>
+            <DiscountButton onClick={handleDiscount}>할인</DiscountButton>
+          </ButtonWrapper>
+          <Line />
+        </Header>
+
+        {Object.entries(checkedServices).map((el: any) => {
+          return (
+            <div>
+              <span>{el[0]}</span>
+              <span>{el[1]}</span>
+              <SelectQuantity />
+            </div>
+          );
+        })}
+        {Object.entries(checkedDiscounts).map((el: any) => {
+          return (
+            <div>
+              <span>{el[0]}</span>
+              <span>{el[1]}</span>
+            </div>
+          );
+        })}
+        <Footer>
+          <Line />
+          <TotalAmount>
+            <span>합계</span>
+            <span> 원</span>
+          </TotalAmount>
+          <NextButton></NextButton>
+        </Footer>
+      </CartWrap>
     </CartBox>
   );
 }
@@ -111,4 +204,8 @@ const DiscountButton = styled(ServiceButton)`
   &:active {
     background: #fdf1f5;
   }
+`;
+const CartWrap = styled.div`
+  position: fixed;
+  z-index: 9;
 `;
