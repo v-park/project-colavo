@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 export default function Button(props: any) {
-  return <StyledButton>시술</StyledButton>;
+  return <StyledButton></StyledButton>;
 }
 
 const StyledButton = styled.button`

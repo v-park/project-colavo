@@ -2,14 +2,15 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import CloseButton from 'react-bootstrap/CloseButton';
-import Button from './components/Button';
+// import Button from './components/Button';
 import NextButton from './components/NextButton';
 
 export default function Cart() {
   const navigate = useNavigate();
 
   const showMenu = () => {
-    navigate('/src/pages/Menu/Menu.tsx');
+    navigate('/menu');
+    console.log('hi');
   };
   return (
     <CartBox>
@@ -22,8 +23,8 @@ export default function Cart() {
           </CustomerWrapper>
         </HeaderWrapper>
         <ButtonWrapper>
-          <Button onClick={() => showMenu()}>시술</Button>
-          <Button>할인</Button>
+          <ServiceButton onClick={showMenu}>시술</ServiceButton>
+          <DiscountButton>할인</DiscountButton>
         </ButtonWrapper>
         <Line />
       </Header>
@@ -73,4 +74,41 @@ const Footer = styled.div``;
 const TotalAmount = styled.div`
   display: flex;
   justify-content: space-between;
+`;
+
+const ServiceButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  width: 7rem;
+  height: 3rem;
+  outline: none;
+  border: none;
+  border-radius: 4px;
+  color: silver;
+  font-weight: 700;
+  font-size: 0.8rem;
+  cursor: pointer;
+
+  background: #fdf1f5;
+  &:hover {
+    background: #fdf1f5;
+  }
+  &:active {
+    background: #fdf1f5;
+  }
+`;
+
+const DiscountButton = styled(ServiceButton)`
+  color: #ffa4c8;
+
+  background: #fdf1f5;
+  &:hover {
+    background: #fdf1f5;
+  }
+  &:active {
+    background: #fdf1f5;
+  }
 `;
