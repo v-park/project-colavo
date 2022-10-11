@@ -1,4 +1,5 @@
 import React from 'react';
+import styled from 'styled-components';
 
 interface DiscountItemType {
   discount: {
@@ -14,16 +15,35 @@ export default function DiscountItem({
 }: DiscountItemType) {
   return (
     <>
-      <div>
-        {name}
-        {discountRate}
-      </div>
-      <input
-        type="checkbox"
-        value={discountRate}
-        name={name}
-        onChange={handleDiscountChecked}
-      />
+      <DiscountWrapper>
+        <DiscountTitleWrapper>
+          {name}
+          <div>{discountRate}</div>
+        </DiscountTitleWrapper>
+
+        <CheckboxWrapper>
+          <input
+            type="checkbox"
+            value={discountRate}
+            name={name}
+            onChange={handleDiscountChecked}
+          />
+        </CheckboxWrapper>
+      </DiscountWrapper>
     </>
   );
 }
+
+const DiscountWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+  z-index: 10;
+  margin-bottom: 20px;
+`;
+
+const DiscountTitleWrapper = styled.div``;
+
+const CheckboxWrapper = styled.div`
+  align-self: center;
+`;

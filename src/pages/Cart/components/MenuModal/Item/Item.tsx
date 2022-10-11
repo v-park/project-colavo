@@ -1,6 +1,7 @@
 import React from 'react';
+import styled from 'styled-components';
 
-interface Type {
+interface ItemType {
   service: {
     count: number;
     name: string;
@@ -8,23 +9,43 @@ interface Type {
   };
   handleChecked: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-export default function Item(props: Type) {
-  const { name, price, count } = props.service;
+export default function Item(props: ItemType) {
+  const { name, price } = props.service;
   const { handleChecked } = props;
 
   return (
-    <form>
-      <li key={name}>
-        {name}
-        {price}
-        {count}
-      </li>
-      <input
-        type="checkbox"
-        name={name}
-        onChange={handleChecked}
-        value={price}
-      />
-    </form>
+    <ItemWrapper>
+      <ItemSingleWrapper>
+        <ItemInfoWrapper>
+          <ServiceName key={name}>{name}</ServiceName>
+          <ServicePrice>{price}원</ServicePrice>
+        </ItemInfoWrapper>
+
+        <CheckboxWrapper>
+          <Checkbox
+            type="checkbox"
+            name={name}
+            onChange={handleChecked}
+            value={price}
+          />
+        </CheckboxWrapper>
+      </ItemSingleWrapper>
+    </ItemWrapper>
   );
 }
+
+const ItemWrapper = styled.form`
+  margin: 15px;
+`;
+const ItemSingleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+const ItemInfoWrapper = styled.div``;
+const ServiceName = styled.div``;
+const ServicePrice = styled.div``;
+
+const CheckboxWrapper = styled.div`
+  align-self: center;
+`;
+const Checkbox = styled.input``;

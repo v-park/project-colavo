@@ -10,7 +10,7 @@ interface Props {
   handleChecked: (e: React.ChangeEvent<HTMLInputElement>) => void;
   closeMenu: () => void;
 }
-interface Type {
+interface HairServiceType {
   [key: string]: {
     count: number;
     name: string;
@@ -23,7 +23,7 @@ export default function MenuModal({
   handleChecked,
   closeMenu,
 }: Props) {
-  const [hairServices, setHairServices] = useState<Type>({});
+  const [hairServices, setHairServices] = useState<HairServiceType>({});
 
   useEffect(() => {
     axios
@@ -40,50 +40,48 @@ export default function MenuModal({
   const cut = services.filter((service) => service.name.includes('컷'));
   const blowout = services.filter((service) => service.name === '드라이');
   const perm = services.filter((service) => service.name.includes('펌'));
-  const dye = services.filter((service) => service.name.includes('염색'));
 
   return (
-    <>
-      <MenuWrapper>
-        <Navbar closeMenu={closeMenu} />
-        <ListBox>
-          <ServiceTitle>커트</ServiceTitle>
-          {cut.map((cut) => {
-            return <Item service={cut} handleChecked={handleChecked} />;
-          })}
-          <ServiceTitle>드라이</ServiceTitle>
-          {blowout.map((blowout) => {
-            return <Item service={blowout} handleChecked={handleChecked} />;
-          })}
+    <MenuWrapper>
+      <Navbar closeMenu={closeMenu} />
+      <MenuBox>
+        <ServiceTitle>커트</ServiceTitle>
+        {cut.map((cut) => {
+          return <Item service={cut} handleChecked={handleChecked} />;
+        })}
+        <ServiceTitle>드라이</ServiceTitle>
+        {blowout.map((blowout) => {
+          return <Item service={blowout} handleChecked={handleChecked} />;
+        })}
 
-          <ServiceTitle>펌</ServiceTitle>
-          {perm.map((perm) => {
-            return <Item service={perm} handleChecked={handleChecked} />;
-          })}
-          <ServiceTitle>염색</ServiceTitle>
-          {dye.map((dye) => {
-            return <Item service={dye} handleChecked={handleChecked} />;
-          })}
-        </ListBox>
-        <CompleteButton onClick={closeMenu}>완료</CompleteButton>
-      </MenuWrapper>
-    </>
+        <ServiceTitle>펌</ServiceTitle>
+        {perm.map((perm) => {
+          return <Item service={perm} handleChecked={handleChecked} />;
+        })}
+      </MenuBox>
+
+      <CompleteButton onClick={closeMenu}>완료</CompleteButton>
+    </MenuWrapper>
   );
 }
 
 export const MenuWrapper = styled.div`
-  position: relative;
-  z-index: 10;
+  width: 100vw;
+  height: 1000px;
+  z-index: 12;
 `;
 
-export const ListBox = styled.div`
-  width: 390px;
-  height: 564px;
+export const MenuBox = styled.div`
+  width: 350px;
+  height: 600px;
+  margin: 0px;
 `;
 
 const ServiceTitle = styled.div`
-  width: 300px;
-  border-bottom: 1px solid black;
+  width: 345px;
+  margin-bottom: 15px;
+  color: grey;
+  border-bottom: 1px solid silver;
 `;
 
 const CompleteButton = styled.button`
@@ -102,7 +100,7 @@ const CompleteButton = styled.button`
   font-size: 1rem;
   cursor: pointer;
 
-  background: #9885f0;
+  background: #b8abf3;
   &:hover {
     background: #9885f0;
   }

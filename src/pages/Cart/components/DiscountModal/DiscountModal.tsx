@@ -1,9 +1,11 @@
-import Navbar from '../../../../components/Navbar';
 import React from 'react';
-import * as S from '../MenuModal/MenuModal';
+import Navbar from '../../../../components/Navbar';
 import DiscountItem from './components/DiscountItem';
+import NextButton from '../NextButton';
+import styled from 'styled-components';
+import * as S from '../MenuModal/MenuModal';
 
-interface Discount {
+interface DiscountType {
   discountData: {
     name: string;
     discountRate: number;
@@ -16,11 +18,11 @@ export default function DiscountModal({
   discountData,
   closeMenu,
   handleDiscountChecked,
-}: Discount) {
+}: DiscountType) {
   return (
     <S.MenuWrapper>
       <Navbar closeMenu={closeMenu} />
-      <S.ListBox>
+      <S.MenuBox>
         {discountData.map((discount) => {
           return (
             <>
@@ -31,7 +33,20 @@ export default function DiscountModal({
             </>
           );
         })}
-      </S.ListBox>
+
+        <Body />
+
+        <ButtonWrapper>
+          <NextButton closeMenu={closeMenu} />
+        </ButtonWrapper>
+      </S.MenuBox>
     </S.MenuWrapper>
   );
 }
+
+const Body = styled.div`
+  height: 300px;
+`;
+const ButtonWrapper = styled.div`
+  height: 100px;
+`;
